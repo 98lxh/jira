@@ -1,4 +1,4 @@
-import React from "react"
+import React, { memo } from "react"
 import { User } from "./search-panel"
 
 interface Project {
@@ -14,7 +14,7 @@ interface ListProps {
   users: User[]
 }
 
-export const List: React.FC<ListProps> = ({ list, users }) => {
+export const List: React.FC<ListProps> = memo(({ list, users }) => {
   return <table>
     <thead>
       <tr>
@@ -32,4 +32,4 @@ export const List: React.FC<ListProps> = ({ list, users }) => {
       }
     </tbody>
   </table>
-}
+})
