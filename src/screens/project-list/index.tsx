@@ -6,7 +6,7 @@ import { List } from "./lits"
 import { useMount } from "hooks/useMount"
 import { useDebounce } from "hooks/useDebounce"
 
-import { cleanObejct } from "utils"
+import { cleanObject } from "utils"
 
 import * as qs from "qs"
 
@@ -33,7 +33,7 @@ export const ProjectListScreen = () => {
   })
 
   useEffect(() => {
-    fetch(`${apiUrl}/projects?${qs.stringify(cleanObejct(debounceParam))}`).then(async response => {
+    fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(debounceParam))}`).then(async response => {
       if (response.ok) {
         setList(await response.json())
       }
