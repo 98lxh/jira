@@ -1,6 +1,7 @@
 import React from 'react'
 import { Form, Input, Button } from 'antd'
 import { useAuth } from 'context/auth-context'
+import { LongButton } from 'unauthenicated-app'
 
 export const LoginScreen: React.FC = () => {
   const { login } = useAuth()
@@ -17,7 +18,7 @@ export const LoginScreen: React.FC = () => {
       <Input placeholder="密码" type="text" id='password' />
     </Form.Item>
     <Form.Item>
-      <Button htmlType="submit" type="primary">登录</Button>
+      <LongButton htmlType="submit" type="primary">登录</LongButton>
     </Form.Item>
   </Form >
 }
