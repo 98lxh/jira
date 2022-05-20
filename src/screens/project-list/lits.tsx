@@ -1,5 +1,7 @@
-import React, { memo } from "react"
+import React from "react"
+import { Table } from "antd"
 import { User } from "./search-panel"
+import { ColumnsType } from "antd/lib/table"
 
 interface Project {
   id: string
@@ -14,22 +16,25 @@ interface ListProps {
   users: User[]
 }
 
-export const List: React.FC<ListProps> = memo(({ list, users }) => {
-  return <table>
-    <thead>
-      <tr>
-        <th>名称</th>
-        <th>负责人</th>
-      </tr>
-    </thead>
-    <tbody>
-      {
-        list.map(project => (<tr key={project.id}>
-          <td>{project.name}</td>
-          <td>{users.find(user => user.id === project.personId)?.name || '未知'}</td>
-        </tr>)
-        )
+export const List: React.FC<ListProps> = ({ list, users }) => {
+
+  const columns: ColumnsType<Project> = [
+    {
+      title: '名称',
+      dataIndex: 'name',
+      sorter: (a, b) => a.name.localeCompare(b.name)
+    },
+    {
+      title: '负责人',
+      render(_, project) {
+        return <span>
+          {
+            users.find(user => user.id === project.id)?.name || '未知'
+          }
+        </span>
       }
-    </tbody>
-  </table>
-})
+    }
+  ]
+
+  return <Table pagination={false} columns={columns} dataSource={list} />
+}
