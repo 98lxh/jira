@@ -3,8 +3,7 @@ import { useAsync } from '../../../hooks/use-async';
 import { cleanObject } from 'utils';
 import { useHttp } from 'utils/http';
 
-import { Project } from '../lits';
-
+import { Project } from '../list';
 export const useProjects = (param: Partial<Project> = {}) => {
   const { run, ...result } = useAsync<Project[]>()
   const clinet = useHttp()

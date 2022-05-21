@@ -1,18 +1,18 @@
 import React, { useState } from "react"
 import { Typography } from "antd"
-import { List } from "./lits"
+import { List } from "./list"
 import { SearchPanel } from "./search-panel"
 import { useProjects } from "screens/project-list/hooks/use-project"
 import { useDebounce } from "hooks/use-debounce"
 import { useUsers } from "./hooks/use-user"
-import styled from "@emotion/styled"
 import { useDocumentTitle } from "hooks/use-document-title"
+import styled from "@emotion/styled"
 
 export const ProjectListScreen: React.FC = () => {
 
   const [param, setParam] = useState({
     name: '',
-    personId: ''
+    personId: ""
   })
 
   const debounceParam = useDebounce(param, 200)

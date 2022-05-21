@@ -1,37 +1,55 @@
 import React from "react"
-import { useAuth } from "context/auth-context"
-import { ProjectListScreen } from "screens/project-list"
-import styled from "@emotion/styled"
-import { Row } from "components/lib"
-import { ReactComponent as SoftwareLogo } from "assets/logo.svg";
+import { Navigate, Route, Routes } from "react-router"
+import { BrowserRouter as Router } from "react-router-dom"
 import { Button, Dropdown, Menu } from "antd"
+import { ProjectListScreen } from "screens/project-list"
+import { Row } from "components/lib"
+import { useAuth } from "context/auth-context"
+import { ReactComponent as SoftwareLogo } from "assets/logo.svg";
+import { ProjectScreen } from "screens/project"
+import { resetRoute } from "utils/reset-route"
+import styled from "@emotion/styled"
 
-export const AuthenticatedApp: React.FC = () => {
+const PageHeader = () => {
   const { logout, user } = useAuth()
 
   return (
-    <Container>
-      <Header between={true}>
-        <HeaderLeft gap={true}>
+    <Header between={true}>
+      <HeaderLeft gap={true}>
+        <Button type="link" onClick={resetRoute}>
           <SoftwareLogo width="18rem" />
-          <h3>项目</h3>
-          <h3>用户</h3>
-        </HeaderLeft>
-        <HeaderRight onClick={logout}>
-          <Dropdown
-            overlay={
-              <Menu>
-                <Menu.Item key="logout">
-                  <Button type="link">登出</Button>
-                </Menu.Item>
-              </Menu>
-            }>
-            <Button type="link">Hi,{user?.name}</Button>
-          </Dropdown>
-        </HeaderRight>
-      </Header>
+        </Button>
+        <h3>项目</h3>
+        <h3>用户</h3>
+      </HeaderLeft>
+      <HeaderRight onClick={logout}>
+        <Dropdown
+          overlay={
+            <Menu>
+              <Menu.Item key="logout">
+                <Button type="link">登出</Button>
+              </Menu.Item>
+            </Menu>
+          }>
+          <Button type="link">Hi,{user?.name}</Button>
+        </Dropdown>
+      </HeaderRight>
+    </Header>
+  )
+}
+
+export const AuthenticatedApp: React.FC = () => {
+  return (
+    <Container>
+      <PageHeader />
       <Main>
-        <ProjectListScreen />
+        <Router>
+          <Routes>
+            <Route path="/projects" element={<ProjectListScreen />} />
+            <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
+            <Route path="*" element={<Navigate to="/projects" />} />
+          </Routes>
+        </Router>
       </Main>
     </Container>
   )
