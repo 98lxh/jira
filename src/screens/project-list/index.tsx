@@ -6,6 +6,7 @@ import { useMount } from "hooks/useMount"
 import { useDebounce } from "hooks/useDebounce"
 import { cleanObject } from "utils"
 import { useHttp } from "utils/http"
+import styled from "@emotion/styled"
 
 export const ProjectListScreen: React.FC = () => {
   const [list, setList] = useState([])
@@ -28,8 +29,16 @@ export const ProjectListScreen: React.FC = () => {
     clinet('projects', { data: cleanObject(debounceParam) }).then(setList)
   }, [debounceParam])
 
-  return <div>
-    <SearchPanel param={param} users={users} setParam={setParam} />
-    <List list={list} users={users} />
-  </div>
+  return (
+    <Container>
+      <h1>项目列表</h1>
+      <SearchPanel param={param} users={users} setParam={setParam} />
+      <List list={list} users={users} />
+    </Container>
+  )
 }
+
+
+const Container = styled.div`
+  padding: 3.2rem;
+`

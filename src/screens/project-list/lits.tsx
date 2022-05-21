@@ -2,6 +2,7 @@ import React from "react"
 import { Table } from "antd"
 import { User } from "./search-panel"
 import { ColumnsType } from "antd/lib/table"
+import dayjs from "dayjs"
 
 interface Project {
   id: string
@@ -9,6 +10,7 @@ interface Project {
   personId: string
   pin: boolean
   organization: string
+  created: number
 }
 
 interface ListProps {
@@ -25,6 +27,10 @@ export const List: React.FC<ListProps> = ({ list, users }) => {
       sorter: (a, b) => a.name.localeCompare(b.name)
     },
     {
+      title: '部门',
+      dataIndex: 'organization',
+    },
+    {
       title: '负责人',
       render(_, project) {
         return <span>
@@ -33,7 +39,16 @@ export const List: React.FC<ListProps> = ({ list, users }) => {
           }
         </span>
       }
-    }
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'created',
+      render(_, project) {
+        return <span>
+          {project.created ? dayjs(project.created).format('YYYY-MM-DD') : '无'}
+        </span>
+      }
+    },
   ]
 
   return <Table pagination={false} columns={columns} dataSource={list} />

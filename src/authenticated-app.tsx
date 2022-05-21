@@ -3,19 +3,32 @@ import { useAuth } from "context/auth-context"
 import { ProjectListScreen } from "screens/project-list"
 import styled from "@emotion/styled"
 import { Row } from "components/lib"
+import { ReactComponent as SoftwareLogo } from "assets/logo.svg";
+import { Dropdown, Menu } from "antd"
 
 export const AuthenticatedApp: React.FC = () => {
-  const { logout } = useAuth()
+  const { logout, user } = useAuth()
 
   return (
     <Container>
       <Header between={true}>
         <HeaderLeft gap={true}>
-          <h3>logo</h3>
-          <h3>项目</h3>
-          <h3>用户</h3>
+          <SoftwareLogo width="18rem" />
+          <h2>项目</h2>
+          <h2>用户</h2>
         </HeaderLeft>
-        <HeaderRight onClick={logout}>登出</HeaderRight>
+        <HeaderRight onClick={logout}>
+          <Dropdown
+            overlay={
+              <Menu>
+                <Menu.Item key="logout">
+                  <a onClick={logout}>登出</a>
+                </Menu.Item>
+              </Menu>
+            }>
+            <a onClick={(e) => e.preventDefault()}>Hi,{user?.name}</a>
+          </Dropdown>
+        </HeaderRight>
       </Header>
       <Main>
         <ProjectListScreen />
