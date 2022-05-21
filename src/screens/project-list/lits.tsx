@@ -4,7 +4,7 @@ import { User } from "./search-panel"
 import { ColumnsType, TableProps } from "antd/lib/table"
 import dayjs from "dayjs"
 
-interface Project {
+export interface Project {
   id: string
   name: string
   personId: string
