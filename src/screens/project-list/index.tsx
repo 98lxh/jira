@@ -6,6 +6,7 @@ import { useProjects } from "screens/project-list/hooks/use-project"
 import { useDebounce } from "hooks/use-debounce"
 import { useUsers } from "./hooks/use-user"
 import styled from "@emotion/styled"
+import { useDocumentTitle } from "hooks/use-document-title"
 
 export const ProjectListScreen: React.FC = () => {
 
@@ -18,6 +19,8 @@ export const ProjectListScreen: React.FC = () => {
 
   const { error, isLoading, data: list } = useProjects(debounceParam)
   const { data: users } = useUsers()
+
+  useDocumentTitle('项目列表', false)
 
   return (
     <Container>

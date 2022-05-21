@@ -2,19 +2,22 @@ import { useState } from "react"
 import { Button, Card, Divider } from "antd"
 import { LoginScreen } from "./login"
 import { RegisterScreen } from "./register"
-import styled from "@emotion/styled"
+import { useDocumentTitle } from "hooks/use-document-title"
 import logo from "assets/logo.svg"
 import left from "assets/left.svg"
 import right from "assets/right.svg"
 
+import styled from "@emotion/styled"
+
+
 export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false)
+
   return (
     <Container>
       <Header />
       <Background />
       <ShadowCard>
-        <Button onClick={() => { throw new Error('按钮异常') }}>抛出异常</Button>
         <Title>{isRegister ? '请注册' : '请登录'}</Title>
         {
           isRegister ? <RegisterScreen /> : <LoginScreen />
