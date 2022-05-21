@@ -24,7 +24,7 @@ export const List: React.FC<ListProps> = ({ list, users }) => {
     {
       title: '名称',
       dataIndex: 'name',
-      sorter: (a, b) => a.name.localeCompare(b.name)
+      sorter: (a, b) => a.name.localeCompare(b.name),
     },
     {
       title: '部门',
@@ -38,7 +38,7 @@ export const List: React.FC<ListProps> = ({ list, users }) => {
             users.find(user => user.id === project.id)?.name || '未知'
           }
         </span>
-      }
+      },
     },
     {
       title: '创建时间',
@@ -51,5 +51,5 @@ export const List: React.FC<ListProps> = ({ list, users }) => {
     },
   ]
 
-  return <Table pagination={false} columns={columns} dataSource={list} />
+  return <Table rowKey="id" pagination={false} columns={columns} dataSource={list} />
 }

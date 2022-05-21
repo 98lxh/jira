@@ -26,7 +26,7 @@ export const ProjectListScreen: React.FC = () => {
   })
 
   useEffect(() => {
-    clinet('projects', { data: cleanObject(debounceParam) }).then(setList)
+    clinet('projects', { data: cleanObject(debounceParam) }).then(setList) // eslint-disable-next-line 
   }, [debounceParam])
 
   return (

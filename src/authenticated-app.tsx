@@ -4,7 +4,7 @@ import { ProjectListScreen } from "screens/project-list"
 import styled from "@emotion/styled"
 import { Row } from "components/lib"
 import { ReactComponent as SoftwareLogo } from "assets/logo.svg";
-import { Dropdown, Menu } from "antd"
+import { Button, Dropdown, Menu } from "antd"
 
 export const AuthenticatedApp: React.FC = () => {
   const { logout, user } = useAuth()
@@ -14,19 +14,19 @@ export const AuthenticatedApp: React.FC = () => {
       <Header between={true}>
         <HeaderLeft gap={true}>
           <SoftwareLogo width="18rem" />
-          <h2>项目</h2>
-          <h2>用户</h2>
+          <h3>项目</h3>
+          <h3>用户</h3>
         </HeaderLeft>
         <HeaderRight onClick={logout}>
           <Dropdown
             overlay={
               <Menu>
                 <Menu.Item key="logout">
-                  <a onClick={logout}>登出</a>
+                  <Button type="link">登出</Button>
                 </Menu.Item>
               </Menu>
             }>
-            <a onClick={(e) => e.preventDefault()}>Hi,{user?.name}</a>
+            <Button type="link">Hi,{user?.name}</Button>
           </Dropdown>
         </HeaderRight>
       </Header>
