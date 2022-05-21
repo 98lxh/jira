@@ -2,15 +2,18 @@ import React from "react"
 import { useEffect, useState } from "react"
 import { SearchPanel } from "./search-panel"
 import { List } from "./lits"
-import { useMount } from "hooks/useMount"
-import { useDebounce } from "hooks/useDebounce"
+import { useMount } from "hooks/use-mount"
+import { useDebounce } from "hooks/use-debounce"
 import { cleanObject } from "utils"
 import { useHttp } from "utils/http"
 import styled from "@emotion/styled"
+import { Typography } from "antd"
 
 export const ProjectListScreen: React.FC = () => {
   const [list, setList] = useState([])
   const [users, setUsers] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<null | Error>(null)
 
   const [param, setParam] = useState({
     name: '',
@@ -26,14 +29,26 @@ export const ProjectListScreen: React.FC = () => {
   })
 
   useEffect(() => {
-    clinet('projects', { data: cleanObject(debounceParam) }).then(setList) // eslint-disable-next-line 
+    setLoading(true)
+    clinet('projects', { data: cleanObject(debounceParam) })
+      .then(setList)
+      .catch(error => {
+        setError(error)
+        setList([])
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+
+    // eslint-disable-next-line
   }, [debounceParam])
 
   return (
     <Container>
       <h1>项目列表</h1>
       <SearchPanel param={param} users={users} setParam={setParam} />
-      <List list={list} users={users} />
+      {error ? <Typography.Text type="danger">{error.message}</Typography.Text> : null}
+      <List loading={loading} dataSource={list} users={users} />
     </Container>
   )
 }
