@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import { AppProviders } from 'context';
-import App from './App';
 import { DevTools, loadServer } from "jira-dev-tool"
+import App from './App';
 import "./App.css"
 import "antd/dist/antd.less"
 const root = ReactDOM.createRoot(

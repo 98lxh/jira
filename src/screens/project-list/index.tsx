@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { Typography } from "antd"
 import { List } from "./list"
 import { SearchPanel } from "./search-panel"
@@ -6,15 +6,11 @@ import { useProjects } from "screens/project-list/hooks/use-project"
 import { useDebounce } from "hooks/use-debounce"
 import { useUsers } from "./hooks/use-user"
 import { useDocumentTitle } from "hooks/use-document-title"
+import { useUrlQueryParam } from "hooks/use-query-param"
 import styled from "@emotion/styled"
 
 export const ProjectListScreen: React.FC = () => {
-
-  const [param, setParam] = useState({
-    name: '',
-    personId: ""
-  })
-
+  const [param, setParam] = useUrlQueryParam(['name', 'personId'])
   const debounceParam = useDebounce(param, 200)
 
   const { error, isLoading, data: list } = useProjects(debounceParam)
