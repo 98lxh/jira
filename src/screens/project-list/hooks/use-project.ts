@@ -7,8 +7,12 @@ import { Project } from '../list';
 export const useProjects = (param: Partial<Project> = {}) => {
   const { run, ...result } = useAsync<Project[]>()
   const clinet = useHttp()
+
+  const fetchProjects = () => clinet('projects', { data: cleanObject(param) })
   useEffect(() => {
-    run(clinet('projects', { data: cleanObject(param) }))
+    run(fetchProjects(), {
+      retry: fetchProjects
+    })
     // eslint-disable-next-line
   }, [param])
 

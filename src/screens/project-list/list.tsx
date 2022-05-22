@@ -4,6 +4,8 @@ import { User } from "./search-panel"
 import { ColumnsType, TableProps } from "antd/lib/table"
 import dayjs from "dayjs"
 import { Link } from "react-router-dom"
+import { Pin } from "components/pin"
+import { useEditProject } from "./hooks/use-edit-project"
 
 export interface Project {
   id: number
@@ -15,12 +17,24 @@ export interface Project {
 }
 
 interface ListProps extends TableProps<Project> {
-  users: User[]
+  users: User[],
+  refresh: () => void
 }
 
 export const List: React.FC<ListProps> = ({ users, ...props }) => {
+  const { mutate } = useEditProject()
+
+  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin }).then(props.refresh)
 
   const columns: ColumnsType<Project> = [
+    {
+      title: <Pin checked={true} disabled={true} />,
+      render(_, project) {
+        return <Pin
+          checked={project.pin}
+          onCheckedChange={pinProject(project.id)} />
+      }
+    },
     {
       title: '名称',
       dataIndex: 'name',
