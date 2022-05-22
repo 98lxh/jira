@@ -14,7 +14,7 @@ export const useUrlQueryParam = <K extends string>(keys: K[]) => {
   }, {} as { [key in K]: string })), // eslint-disable-next-line 
     [searchParams])
 
-  const setParams: (params: Partial<{ [key in K]: string }>) => void = (params) => {
+  const setParams: (params: Partial<{ [key in K]: unknown }>) => void = (params) => {
     console.log(params)
     const newParams = cleanObject({ ...Object.fromEntries(searchParams), ...params }) as URLSearchParamsInit
     return setSearchParams(newParams)
