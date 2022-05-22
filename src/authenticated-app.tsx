@@ -1,60 +1,71 @@
-import React from "react"
+import React, { useState } from "react"
 import { Navigate, Route, Routes } from "react-router"
 import { BrowserRouter as Router } from "react-router-dom"
 import { Button, Dropdown, Menu } from "antd"
 import { ProjectListScreen } from "screens/project-list"
-import { Row } from "components/lib"
+import { ButtonNoPadding, Row } from "components/lib"
 import { useAuth } from "context/auth-context"
 import { ReactComponent as SoftwareLogo } from "assets/logo.svg";
 import { ProjectScreen } from "screens/project"
 import { resetRoute } from "utils/reset-route"
+import { ProjectModal } from "screens/project-list/project-modal"
+import { ProjectPopover } from "components/project-popover"
 import styled from "@emotion/styled"
 
-const PageHeader = () => {
-  const { logout, user } = useAuth()
 
+const User = () => {
+  const { user, logout } = useAuth()
+  return (
+    <Dropdown
+      overlay={
+        <Menu>
+          <Menu.Item key="logout">
+            <ButtonNoPadding type="link" onClick={logout}>登出</ButtonNoPadding>
+          </Menu.Item>
+        </Menu>
+      }>
+      <Button type="link">Hi,{user?.name}</Button>
+    </Dropdown>
+  )
+}
+
+const PageHeader: React.FC<{ setProjectModalOpen: (isOpen: boolean) => void }> = (props) => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
         <Button type="link" onClick={resetRoute}>
           <SoftwareLogo width="18rem" />
         </Button>
-        <h3>项目</h3>
-        <h3>用户</h3>
+        <ProjectPopover setProjectModalOpen={props.setProjectModalOpen} />
+        <span>用户</span>
       </HeaderLeft>
-      <HeaderRight onClick={logout}>
-        <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key="logout">
-                <Button type="link">登出</Button>
-              </Menu.Item>
-            </Menu>
-          }>
-          <Button type="link">Hi,{user?.name}</Button>
-        </Dropdown>
+      <HeaderRight>
+        <User />
       </HeaderRight>
     </Header>
   )
 }
 
 export const AuthenticatedApp: React.FC = () => {
+  const [projecModaltOpen, setProjecModaltOpen] = useState(false)
+
   return (
     <Container>
-      <PageHeader />
+      <PageHeader setProjectModalOpen={setProjecModaltOpen} />
+      <Button onClick={() => setProjecModaltOpen(true)}>打开</Button>
       <Main>
         <Router>
           <Routes>
-            <Route path="/projects" element={<ProjectListScreen />} />
+            <Route path="/projects" element={<ProjectListScreen setProjectModalOpen={setProjecModaltOpen} />} />
             <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
             <Route path="*" element={<Navigate to="/projects" />} />
           </Routes>
         </Router>
       </Main>
+      <ProjectModal projectModalOpen={projecModaltOpen} onClose={() => setProjecModaltOpen(false)} />
     </Container>
   )
 }
-
 
 const Container = styled.div`
   display: grid;
