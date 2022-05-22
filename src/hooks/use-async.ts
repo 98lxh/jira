@@ -1,3 +1,4 @@
+import { useMountedRef } from './use-mount';
 import { useState } from 'react';
 interface State<D> {
   error: Error | null
@@ -11,18 +12,22 @@ const defaultInitalState: State<null> = {
   error: null
 }
 
+
+//Note: useState传入函数是要惰性初始化,所以用useState保存函数不能直接传入函数
+//const [retry, setRetry] = useState(() => { })
+//Note: 用useRef保存函数
+//注意:useRef保存的值并不是组件状态他只是一个普通的值它并不会触发组件重新渲染
+//在整个生命周期内是不会改变的，当重新设置callback会，需要用callback.current读取最新的值
+// const callbackRef = useRef(() => { })
+
 export const useAsync = <D>(initialStata?: State<D>) => {
   const [state, setState] = useState<State<D>>({
     ...defaultInitalState,
     ...initialStata
   })
 
-  //Note: useState传入函数是要惰性初始化,所以用useState保存函数不能直接传入函数
-  //const [retry, setRetry] = useState(() => { })
-  //Note: 用useRef保存函数
-  //注意:useRef保存的值并不是组件状态他只是一个普通的值它并不会触发组件重新渲染
-  //在整个生命周期内是不会改变的，当重新设置callback会，需要用callback.current读取最新的值
-  // const callbackRef = useRef(() => { })
+  const mountedRef = useMountedRef()
+
 
   const [retry, setRetry] = useState(() => () => { })
 
@@ -52,7 +57,9 @@ export const useAsync = <D>(initialStata?: State<D>) => {
     setState({ ...state, status: 'loading' })
     return promise
       .then(data => {
-        setData(data)
+        if (mountedRef.current) {
+          setData(data)
+        }
         return data
       })
       .catch(error => {
