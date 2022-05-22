@@ -5,7 +5,6 @@ import { RegisterScreen } from "./register"
 import logo from "assets/logo.svg"
 import left from "assets/left.svg"
 import right from "assets/right.svg"
-
 import styled from "@emotion/styled"
 
 

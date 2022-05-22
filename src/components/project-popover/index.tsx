@@ -1,15 +1,15 @@
 import React from "react";
 import { Divider, Popover, Typography } from "antd";
 // import { useProjects } from "screens/project-list/hooks/use-project";
-// import { useProjectsSearchParams } from "screens/project-list/hooks/use-project-params";
-// import { useDebounce } from "hooks/use-debounce";
+import { useDispatch } from "react-redux"
 import styled from "@emotion/styled";
-import { TextNotSelect } from "components/lib";
+import { ButtonNoPadding, TextNotSelect } from "components/lib";
+import { projectListActions } from "screens/project-list/project-list.slice";
 
-export const ProjectPopover: React.FC<{ projectButton: JSX.Element }> = (props) => {
+export const ProjectPopover: React.FC = () => {
   // const { data: projects, isLoading } = useProjects()
 
-
+  const dispatch = useDispatch()
   const content = <ContentContainer>
     <Typography.Text type="secondary">收藏项目</Typography.Text>
     {/* <List>
@@ -23,7 +23,12 @@ export const ProjectPopover: React.FC<{ projectButton: JSX.Element }> = (props) 
       }
     </List> */}
     <Divider />
-    {props.projectButton}
+    <ButtonNoPadding
+      type="link"
+      onClick={() => dispatch(projectListActions.openProjectModal())}
+    >
+      创建项目
+    </ButtonNoPadding>
   </ContentContainer>
 
   return (
