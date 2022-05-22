@@ -4,9 +4,9 @@ import { Divider, Popover, Typography } from "antd";
 // import { useProjectsSearchParams } from "screens/project-list/hooks/use-project-params";
 // import { useDebounce } from "hooks/use-debounce";
 import styled from "@emotion/styled";
-import { ButtonNoPadding, TextNotSelect } from "components/lib";
+import { TextNotSelect } from "components/lib";
 
-export const ProjectPopover: React.FC<{ setProjectModalOpen: (isOpen: boolean) => void }> = (props) => {
+export const ProjectPopover: React.FC<{ projectButton: JSX.Element }> = (props) => {
   // const { data: projects, isLoading } = useProjects()
 
 
@@ -23,7 +23,7 @@ export const ProjectPopover: React.FC<{ setProjectModalOpen: (isOpen: boolean) =
       }
     </List> */}
     <Divider />
-    <ButtonNoPadding type="link" onClick={() => props.setProjectModalOpen(true)}>创建项目</ButtonNoPadding>
+    {props.projectButton}
   </ContentContainer>
 
   return (
