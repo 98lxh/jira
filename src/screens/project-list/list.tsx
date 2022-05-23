@@ -4,10 +4,10 @@ import { Dropdown, Menu, Table } from "antd"
 import { ColumnsType, TableProps } from "antd/lib/table"
 import { User } from "./search-panel"
 import { Pin } from "components/pin"
-import { useEditProject } from "./hooks/use-edit-project"
 import { ButtonNoPadding } from "components/lib"
 import dayjs from "dayjs"
 import { useProjectModal } from "./hooks/use-project-modal"
+import { useEditProject } from "./hooks/use-project"
 
 
 export interface Project {
@@ -21,16 +21,14 @@ export interface Project {
 
 interface ListProps extends TableProps<Project> {
   users: User[],
-  refresh: () => void
 }
 
 export const List: React.FC<ListProps> = ({ users, ...props }) => {
   const { mutate } = useEditProject()
+  const { startEdit } = useProjectModal()
 
-  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin }).then(props.refresh)
-
-
-  const { open } = useProjectModal()
+  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin })
+  const editProject = (id: number) => () => startEdit(id)
 
   const columns: ColumnsType<Project> = [
     {
@@ -58,7 +56,7 @@ export const List: React.FC<ListProps> = ({ users, ...props }) => {
       render(_, project) {
         return <span>
           {
-            users.find(user => user.id === project.id)?.name || '未知'
+            users.find(user => user.id === project.personId)?.name || '未知'
           }
         </span>
       },
@@ -73,12 +71,21 @@ export const List: React.FC<ListProps> = ({ users, ...props }) => {
       }
     },
     {
-      render() {
+      render(_, project) {
         return (
-          <Dropdown overlay={<Menu>
-            <Menu.Item key="edit" onClick={open}>
-              编辑
-            </Menu.Item>
+          <Dropdown overlay={<Menu
+            items={[
+              {
+                key: 'edit',
+                label: '编辑',
+                onClick: editProject(project.id)
+              },
+              {
+                key: 'delete',
+                label: '删除',
+                onClick: () => console.log('delete')
+              }
+            ]}>
           </Menu>}
           >
             <ButtonNoPadding type="link">...</ButtonNoPadding>

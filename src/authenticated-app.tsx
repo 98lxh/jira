@@ -18,10 +18,11 @@ const User = () => {
   return (
     <Dropdown
       overlay={
-        <Menu>
-          <Menu.Item key="logout">
-            <ButtonNoPadding type="link" onClick={logout}>登出</ButtonNoPadding>
-          </Menu.Item>
+        <Menu
+          items={[
+            { key: 'logout', label: '退出登录', onClick: logout },
+          ]}
+        >
         </Menu>
       }>
       <Button type="link">Hi,{user?.name}</Button>

@@ -37,7 +37,7 @@ export const FullPageLoading = () => (
 export const FullPageErrorFullback = ({ error }: { error: Error | null }) => (
   <FullPage>
     <DevTools />
-    <Typography.Text type="danger">{error?.message}</Typography.Text>
+    <ErrorBox error={error} />
   </FullPage>
 )
 
@@ -49,4 +49,13 @@ export const ButtonNoPadding = styled(Button)`
 export const TextNotSelect = styled.span`
   user-select: none;
   cursor: pointer;
-` 
+`
+
+const isError = (val: any): val is Error => val?.message
+
+
+
+export const ErrorBox = ({ error }: { error: unknown }) => {
+  if (isError(error)) return <Typography.Text type="danger">{error.message} </Typography.Text>
+  return null
+}

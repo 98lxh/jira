@@ -9,12 +9,12 @@ import { useProjectsSearchParams } from "./hooks/use-project-params"
 import { useDocumentTitle } from "hooks/use-document-title"
 import styled from "@emotion/styled"
 import { useProjectModal } from "./hooks/use-project-modal"
-import { ButtonNoPadding } from "components/lib"
+import { ButtonNoPadding, ErrorBox } from "components/lib"
 
 export const ProjectListScreen: React.FC = (props) => {
   const [param, setParam] = useProjectsSearchParams()
   const { open } = useProjectModal()
-  const { error, isLoading, data: list, retry } = useProjects(useDebounce(param, 200))
+  const { error, isLoading, data: list } = useProjects(useDebounce(param, 200))
   const { data: users } = useUsers()
 
   useDocumentTitle('项目列表', false)
@@ -28,8 +28,8 @@ export const ProjectListScreen: React.FC = (props) => {
         </ButtonNoPadding>
       </Row>
       <SearchPanel param={param} users={users || []} setParam={setParam} />
-      {error ? <Typography.Text type="danger">{error.message}</Typography.Text> : null}
-      <List refresh={retry} loading={isLoading} dataSource={list || []} users={users || []} />
+      <ErrorBox error={error} />
+      <List loading={isLoading} dataSource={list || []} users={users || []} />
     </Container>
   )
 }
