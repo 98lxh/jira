@@ -1,5 +1,5 @@
 import React from "react"
-import { Button, Row, Typography } from "antd"
+import { Row } from "antd"
 import { List } from "./list"
 import { SearchPanel } from "./search-panel"
 import { useProjects } from "screens/project-list/hooks/use-project"

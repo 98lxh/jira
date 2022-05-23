@@ -1,9 +1,9 @@
-import React, { useState } from "react"
+import React from "react"
 import { Navigate, Route, Routes } from "react-router"
 import { BrowserRouter as Router } from "react-router-dom"
 import { Button, Dropdown, Menu } from "antd"
 import { ProjectListScreen } from "screens/project-list"
-import { ButtonNoPadding, Row } from "components/lib"
+import { Row } from "components/lib"
 import { useAuth } from "context/auth-context"
 import { ReactComponent as SoftwareLogo } from "assets/logo.svg";
 import { ProjectScreen } from "screens/project"

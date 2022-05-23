@@ -1,28 +1,28 @@
 import React from "react";
-import { Divider, Popover, Typography } from "antd";
-// import { useProjects } from "screens/project-list/hooks/use-project";
-// import { useProjectsSearchParams } from "screens/project-list/hooks/use-project-params";
-// import { useDebounce } from "hooks/use-debounce";
+import { Divider, List, Popover, Typography } from "antd";
+import { useProjects } from "screens/project-list/hooks/use-project";
 import styled from "@emotion/styled";
 import { ButtonNoPadding, TextNotSelect } from "components/lib";
 import { useProjectModal } from "screens/project-list/hooks/use-project-modal";
 
 export const ProjectPopover: React.FC = () => {
-  // const { data: projects, isLoading } = useProjects()
+  const { data: projects, isLoading } = useProjects();
   const { open } = useProjectModal()
+
+  const pinedProjects = projects?.filter(p => p.pin) || [];
 
   const content = <ContentContainer>
     <Typography.Text type="secondary">收藏项目</Typography.Text>
-    {/* <List>
+    <List loading={isLoading}>
       {
-        pinnedProjects?.map(project => (
+        pinedProjects?.map(project => (
           <List.Item.Meta
             key={project.id}
             title={project.name}
           />
         ))
       }
-    </List> */}
+    </List>
     <Divider />
     <ButtonNoPadding type="link" onClick={open}>
       创建项目

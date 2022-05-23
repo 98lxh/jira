@@ -22,7 +22,7 @@ export const UnauthenticatedApp = () => {
         <Title>{isRegister ? '请注册' : '请登录'}</Title>
         <ErrorBox error={error} />
         {
-          isRegister ? <RegisterScreen /> : <LoginScreen />
+          isRegister ? <RegisterScreen onError={setError} /> : <LoginScreen onError={setError} />
         }
         <Divider />
         <Button type="link" onClick={() => setIsRegister(!isRegister)}>{isRegister ? '已经有帐号了？直接登录' : '没有账号?注册新账号'}</Button>

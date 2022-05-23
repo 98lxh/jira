@@ -8,6 +8,7 @@ import * as auth from "auth-provider"
 export interface AuthForm {
   username: string
   password: string
+  certifyPassword?: string
 }
 
 interface IAuthContext {

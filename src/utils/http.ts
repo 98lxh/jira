@@ -28,7 +28,6 @@ export const http = async (endpoint: string, { data, token, headers, ...customCo
   return window.fetch(`${apiUrl}/${endpoint}`, config)
     .then(async response => {
       const { status } = response
-
       switch (status) {
         case 401:
           //登录状态过期

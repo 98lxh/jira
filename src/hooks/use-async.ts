@@ -9,6 +9,7 @@
 //Note:useState适合保存单个的状态 useReducer适合保存多个状态会互相影响的状态
 
 import { useCallback, useState, useReducer } from 'react';
+import { config } from 'yargs';
 import { useMountedRef } from './use-mount';
 
 interface State<D> {
@@ -23,6 +24,10 @@ const defaultInitalState: State<null> = {
   error: null
 }
 
+const defaultConfig = {
+  throwOnError: false
+}
+
 const useSafeDispatch = <T>(dispatch: (...args: T[]) => void) => {
   const mountedRef = useMountedRef()
 
@@ -30,7 +35,10 @@ const useSafeDispatch = <T>(dispatch: (...args: T[]) => void) => {
 }
 
 
-export const useAsync = <D>(initialStata?: State<D>) => {
+export const useAsync = <D>(
+  initialStata?: State<D>,
+  initialConfig?: typeof defaultConfig
+) => {
   const [state, dispatch] = useReducer((state: State<D>, action: Partial<State<D>>) =>
     ({ ...state, ...action }), {
     ...defaultInitalState,
@@ -39,6 +47,10 @@ export const useAsync = <D>(initialStata?: State<D>) => {
 
   const safeDispatch = useSafeDispatch(dispatch)
 
+  const config = {
+    ...defaultConfig,
+    ...initialConfig
+  }
 
   const [retry, setRetry] = useState(() => () => { })
 
@@ -74,6 +86,9 @@ export const useAsync = <D>(initialStata?: State<D>) => {
       })
       .catch(error => {
         setError(error)
+        if (config.throwOnError) {
+          return Promise.reject(error)
+        }
         return error
       })
   }, [safeDispatch, setData, setError])
