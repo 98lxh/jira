@@ -37,8 +37,13 @@ export const ProjectModal: React.FC = () => {
     form.setFieldsValue(editingProject)
   }, [editingProject, form])
 
+  const closeModal = () => {
+    form.resetFields()
+    close()
+  }
+
   return (
-    <Drawer forceRender={true} width="100%" visible={projectModalOpen} onClose={close}>
+    <Drawer forceRender={true} width="100%" visible={projectModalOpen} onClose={closeModal}>
       <Container>
         <ErrorBox error={error} />
         {
