@@ -2,11 +2,10 @@ import React, { ReactNode } from "react"
 import { User } from "screens/project-list/search-panel"
 import { http } from "utils/http"
 import { useMount } from "hooks/use-mount"
-import * as auth from "auth-provider"
 import { useAsync } from "hooks/use-async"
 import { FullPageErrorFullback, FullPageLoading } from "components/lib"
-
-interface AuthForm {
+import * as auth from "auth-provider"
+export interface AuthForm {
   username: string
   password: string
 }
@@ -18,7 +17,7 @@ interface IAuthContext {
   logout: () => Promise<void>
 }
 
-const bootstrapUser = async () => {
+export const bootstrapUser = async () => {
   let user = null
   const token = auth.getToken()
   if (token) {

@@ -29,14 +29,14 @@ const User = () => {
   )
 }
 
-const PageHeader: React.FC<{ projectButton: JSX.Element }> = (props) => {
+const PageHeader: React.FC = () => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
         <Button type="link" onClick={resetRoute}>
           <SoftwareLogo width="18rem" />
         </Button>
-        <ProjectPopover {...props} />
+        <ProjectPopover />
         <span>用户</span>
       </HeaderLeft>
       <HeaderRight>
@@ -47,26 +47,20 @@ const PageHeader: React.FC<{ projectButton: JSX.Element }> = (props) => {
 }
 
 export const AuthenticatedApp: React.FC = () => {
-  const [projecModaltOpen, setProjecModalOpen] = useState(false)
-
-  const projectButton = <ButtonNoPadding type="link" onClick={() => setProjecModalOpen(true)}>创建项目</ButtonNoPadding>
 
   return (
     <Container>
-      <PageHeader
-        projectButton={projectButton}
-      />
-      <Button onClick={() => setProjecModalOpen(true)}>打开</Button>
-      <Main>
-        <Router>
+      <Router>
+        <PageHeader />
+        <Main>
           <Routes>
-            <Route path="/projects" element={<ProjectListScreen projectButton={projectButton} />} />
+            <Route path="/projects" element={<ProjectListScreen />} />
             <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
             <Route path="*" element={<Navigate to="/projects" />} />
           </Routes>
-        </Router>
-      </Main>
-      <ProjectModal projectModalOpen={projecModaltOpen} onClose={() => setProjecModalOpen(false)} />
+        </Main>
+        <ProjectModal />
+      </Router>
     </Container>
   )
 }

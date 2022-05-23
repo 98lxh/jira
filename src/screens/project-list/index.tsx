@@ -1,5 +1,5 @@
 import React from "react"
-import { Row, Typography } from "antd"
+import { Button, Row, Typography } from "antd"
 import { List } from "./list"
 import { SearchPanel } from "./search-panel"
 import { useProjects } from "screens/project-list/hooks/use-project"
@@ -8,9 +8,12 @@ import { useUsers } from "./hooks/use-user"
 import { useProjectsSearchParams } from "./hooks/use-project-params"
 import { useDocumentTitle } from "hooks/use-document-title"
 import styled from "@emotion/styled"
+import { useProjectModal } from "./hooks/use-project-modal"
+import { ButtonNoPadding } from "components/lib"
 
-export const ProjectListScreen: React.FC<{ projectButton: JSX.Element }> = (props) => {
+export const ProjectListScreen: React.FC = (props) => {
   const [param, setParam] = useProjectsSearchParams()
+  const { open } = useProjectModal()
   const { error, isLoading, data: list, retry } = useProjects(useDebounce(param, 200))
   const { data: users } = useUsers()
 
@@ -20,11 +23,13 @@ export const ProjectListScreen: React.FC<{ projectButton: JSX.Element }> = (prop
     <Container>
       <Row justify="space-between">
         <h1>项目列表</h1>
-        {props.projectButton}
+        <ButtonNoPadding type="link" onClick={open}>
+          创建项目
+        </ButtonNoPadding>
       </Row>
       <SearchPanel param={param} users={users || []} setParam={setParam} />
       {error ? <Typography.Text type="danger">{error.message}</Typography.Text> : null}
-      <List projectButton={props.projectButton} refresh={retry} loading={isLoading} dataSource={list || []} users={users || []} />
+      <List refresh={retry} loading={isLoading} dataSource={list || []} users={users || []} />
     </Container>
   )
 }
