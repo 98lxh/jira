@@ -4,10 +4,11 @@ import { Dropdown, Menu, Table } from "antd"
 import { ColumnsType, TableProps } from "antd/lib/table"
 import { User } from "./search-panel"
 import { Pin } from "components/pin"
+import { useDispatch } from "react-redux"
 import { useEditProject } from "./hooks/use-edit-project"
 import { ButtonNoPadding } from "components/lib"
+import { projectListActions } from "./project-list.slice"
 import dayjs from "dayjs"
-
 
 export interface Project {
   id: number
@@ -21,13 +22,14 @@ export interface Project {
 interface ListProps extends TableProps<Project> {
   users: User[],
   refresh: () => void
-  projectButton: JSX.Element
 }
 
 export const List: React.FC<ListProps> = ({ users, ...props }) => {
   const { mutate } = useEditProject()
 
   const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin }).then(props.refresh)
+
+  const dispatch = useDispatch()
 
   const columns: ColumnsType<Project> = [
     {
@@ -72,11 +74,16 @@ export const List: React.FC<ListProps> = ({ users, ...props }) => {
     {
       render() {
         return (
-          <Dropdown overlay={<Menu>
+          <Dropdown overlay={(<Menu>
             <Menu.Item key="edit">
-              {props.projectButton}
+              <ButtonNoPadding
+                type="link"
+                onClick={() => dispatch(projectListActions.openProjectModal())}
+              >
+                编辑项目
+              </ButtonNoPadding>
             </Menu.Item>
-          </Menu>}
+          </Menu>)}
           >
             <ButtonNoPadding type="link">...</ButtonNoPadding>
           </Dropdown>
