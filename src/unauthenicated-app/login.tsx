@@ -1,13 +1,15 @@
 import React from 'react'
 import { Form, Input } from 'antd'
-import { useAuth } from 'context/auth-context'
 import { LongButton } from 'unauthenicated-app'
+import { useDispatch } from 'react-redux'
+import { login } from 'stores/auth.slice'
+import { User } from 'screens/project-list/search-panel'
 
 export const LoginScreen: React.FC = () => {
-  const { login } = useAuth()
+  const dispatch = useDispatch() as (...args: unknown[]) => Promise<User>
 
   const handleSubmit = (values: { username: string, password: string }) => {
-    login(values)
+    dispatch(login(values))
   }
 
   return <Form onFinish={handleSubmit}>
