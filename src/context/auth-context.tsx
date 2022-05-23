@@ -5,6 +5,7 @@ import { useMount } from "hooks/use-mount"
 import { useAsync } from "hooks/use-async"
 import { FullPageErrorFullback, FullPageLoading } from "components/lib"
 import * as auth from "auth-provider"
+import { useQueryClient } from "react-query"
 export interface AuthForm {
   username: string
   password: string
@@ -36,9 +37,15 @@ AuthContext.displayName = 'AuthContext'
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { data: user, error, isLoading, isIdle, isError, run, setData: setUser } = useAsync<User | null>()
 
+  const queryClient = useQueryClient()
+
   const login = (form: AuthForm) => auth.login(form).then(user => setUser(user))
   const register = (form: AuthForm) => auth.register(form).then(user => setUser(user))
-  const logout = () => auth.logout().then(() => setUser(null))
+  const logout = () => auth.logout().then(() => {
+    setUser(null)
+    //用useQuery缓存的数据清空
+    queryClient.clear()
+  })
 
   useMount(() => {
     //初始化user
