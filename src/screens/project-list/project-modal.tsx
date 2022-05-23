@@ -6,6 +6,7 @@ import { useForm } from "antd/lib/form/Form"
 import { useEffect } from "react"
 import { ErrorBox } from "components/lib"
 import styled from "@emotion/styled"
+import { useProjectQueryKey } from "./hooks/use-project-params"
 
 
 
@@ -20,7 +21,7 @@ const Container = styled.div`
 export const ProjectModal: React.FC = () => {
   const { projectModalOpen, close, editingProject, isLoading } = useProjectModal()
   const useMutateProject = editingProject ? useEditProject : useAddProject
-  const { mutateAsync, error, isLoading: muateLoading } = useMutateProject()
+  const { mutateAsync, error, isLoading: muateLoading } = useMutateProject(useProjectQueryKey())
 
   const [form] = useForm()
   const onFinish = (values: any) => {

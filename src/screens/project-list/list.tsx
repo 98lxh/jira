@@ -1,13 +1,14 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import { Dropdown, Menu, Table } from "antd"
+import { Dropdown, Menu, Modal, Table } from "antd"
 import { ColumnsType, TableProps } from "antd/lib/table"
 import { User } from "./search-panel"
 import { Pin } from "components/pin"
 import { ButtonNoPadding } from "components/lib"
-import dayjs from "dayjs"
 import { useProjectModal } from "./hooks/use-project-modal"
-import { useEditProject } from "./hooks/use-project"
+import { useDeleteProject, useEditProject } from "./hooks/use-project"
+import { useProjectQueryKey } from "./hooks/use-project-params"
+import dayjs from "dayjs"
 
 
 export interface Project {
@@ -24,11 +25,9 @@ interface ListProps extends TableProps<Project> {
 }
 
 export const List: React.FC<ListProps> = ({ users, ...props }) => {
-  const { mutate } = useEditProject()
-  const { startEdit } = useProjectModal()
+  const { mutate } = useEditProject(useProjectQueryKey())
 
   const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin })
-  const editProject = (id: number) => () => startEdit(id)
 
   const columns: ColumnsType<Project> = [
     {
@@ -72,25 +71,7 @@ export const List: React.FC<ListProps> = ({ users, ...props }) => {
     },
     {
       render(_, project) {
-        return (
-          <Dropdown overlay={<Menu
-            items={[
-              {
-                key: 'edit',
-                label: '编辑',
-                onClick: editProject(project.id)
-              },
-              {
-                key: 'delete',
-                label: '删除',
-                onClick: () => console.log('delete')
-              }
-            ]}>
-          </Menu>}
-          >
-            <ButtonNoPadding type="link">...</ButtonNoPadding>
-          </Dropdown>
-        )
+        return <More project={project} />
       }
     }
   ]
@@ -102,5 +83,40 @@ export const List: React.FC<ListProps> = ({ users, ...props }) => {
       columns={columns}
       {...props}
     />
+  )
+}
+
+const More: React.FC<{ project: Project }> = ({ project }) => {
+  const { startEdit } = useProjectModal()
+  const editProject = (id: number) => () => startEdit(id)
+  const { mutate: deleteProject } = useDeleteProject(useProjectQueryKey())
+
+  const confirmDeleteProject = (id: number) => {
+    Modal.confirm({
+      title: '确认删除这个项目吗?',
+      content: '点击确认后，项目将被删除，无法恢复',
+      okText: '确认',
+      onOk: () => deleteProject({ id })
+    })
+  }
+
+  return (
+    <Dropdown overlay={<Menu
+      items={[
+        {
+          key: 'edit',
+          label: '编辑',
+          onClick: editProject(project.id)
+        },
+        {
+          key: 'delete',
+          label: '删除',
+          onClick: () => confirmDeleteProject(project.id)
+        }
+      ]}>
+    </Menu>}
+    >
+      <ButtonNoPadding type="link">...</ButtonNoPadding>
+    </Dropdown>
   )
 }

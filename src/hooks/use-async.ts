@@ -9,7 +9,6 @@
 //Note:useState适合保存单个的状态 useReducer适合保存多个状态会互相影响的状态
 
 import { useCallback, useState, useReducer } from 'react';
-import { config } from 'yargs';
 import { useMountedRef } from './use-mount';
 
 interface State<D> {
@@ -91,7 +90,7 @@ export const useAsync = <D>(
         }
         return error
       })
-  }, [safeDispatch, setData, setError])
+  }, [config.throwOnError, safeDispatch, setData, setError])
 
   return {
     isIdle: state.status === 'idle',

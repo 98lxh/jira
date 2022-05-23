@@ -27,7 +27,6 @@ export const login = (data: { username: string, password: string }) => {
 }
 
 export const register = (data: { username: string, password: string }) => {
-  console.log(data)
   return fetch(`${apiUrl}/register`, {
     method: "POST",
     headers: {
