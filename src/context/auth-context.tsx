@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react"
-import { User } from "screens/project-list/search-panel"
+import { User } from "types/user"
 import { http } from "utils/http"
 import { useMount } from "hooks/use-mount"
 import { useAsync } from "hooks/use-async"

@@ -1,6 +1,6 @@
 import { QueryKey } from 'react-query';
 import { useHttp } from 'utils/http';
-import { Project } from '../list';
+import { Project } from "types/project";
 import { useQuery, useMutation } from 'react-query';
 import { cleanObject } from 'utils';
 import { useAddConfig, useDeleteConfig, useEditConfig } from 'hooks/use-optimistic-opitons';

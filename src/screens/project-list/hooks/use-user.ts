@@ -1,7 +1,7 @@
 import { cleanObject } from 'utils';
 import { useAsync } from './../../../hooks/use-async';
 import { useHttp } from 'utils/http';
-import { User } from 'screens/project-list/search-panel';
+import { User } from 'types/user';
 import { useMount } from 'hooks/use-mount';
 
 export const useUsers = (param: Partial<User> = {}) => {

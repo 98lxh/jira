@@ -1,9 +1,9 @@
 import React from "react";
 import { Divider, List, Popover, Typography } from "antd";
 import { useProjects } from "screens/project-list/hooks/use-project";
-import styled from "@emotion/styled";
 import { ButtonNoPadding, TextNotSelect } from "components/lib";
 import { useProjectModal } from "screens/project-list/hooks/use-project-modal";
+import styled from "@emotion/styled";
 
 export const ProjectPopover: React.FC = () => {
   const { data: projects, isLoading } = useProjects();

@@ -2,23 +2,15 @@ import React from "react"
 import { Link } from "react-router-dom"
 import { Dropdown, Menu, Modal, Table } from "antd"
 import { ColumnsType, TableProps } from "antd/lib/table"
-import { User } from "./search-panel"
+import { User } from "types/user"
 import { Pin } from "components/pin"
 import { ButtonNoPadding } from "components/lib"
 import { useProjectModal } from "./hooks/use-project-modal"
 import { useDeleteProject, useEditProject } from "./hooks/use-project"
 import { useProjectQueryKey } from "./hooks/use-project-params"
+import { Project } from "types/project"
 import dayjs from "dayjs"
 
-
-export interface Project {
-  id: number
-  name: string
-  personId: number
-  pin: boolean
-  organization: string
-  created: number
-}
 
 interface ListProps extends TableProps<Project> {
   users: User[],
