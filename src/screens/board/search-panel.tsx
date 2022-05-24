@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Col, Input, Row } from "antd";
+import { Button, Input, Row } from "antd";
 import { TaskTypeSelect } from "components/task-type-select";
 import { UserSelect } from "components/user-select";
 import { useSetUrlSearchParams } from "hooks/use-query-param";
@@ -19,20 +19,20 @@ export const SearchPanel: React.FC = () => {
   }
 
   return (
-    <Row style={{ marginBottom: '4rem' }}>
+    <Row style={{ marginBottom: '2rem' }}>
       <Input
-        style={{ width: '20rem', marginRight: '5rem' }}
+        style={{ width: '20rem', marginRight: '2rem' }}
         placeholder="人物名"
         onChange={evt => setSearchParams({ name: evt.target.value })}
       />
       <UserSelect
-        style={{ marginRight: '5rem' }}
+        style={{ marginRight: '2rem' }}
         defaultOptionName="经办人"
         value={searchParams.processorId}
         onChange={value => setSearchParams({ processorId: value })}
       />
       <TaskTypeSelect
-        style={{ marginRight: '5rem' }}
+        style={{ marginRight: '2rem' }}
         defaultOptionName="类型"
         value={searchParams.typeId}
         onChange={value => setSearchParams({ typeId: value })}

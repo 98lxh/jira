@@ -68,6 +68,7 @@ export const AuthenticatedApp: React.FC = () => {
 
 const Container = styled.div`
   display: grid;
+  height: 100vh;
   grid-template-rows: 6rem 1fr;
 `;
 
@@ -81,4 +82,7 @@ const HeaderLeft = styled(Row)``;
 
 const HeaderRight = styled.div``;
 
-const Main = styled.div``;
+const Main = styled.main`
+  display: flex;
+  overflow: hidden;
+`;

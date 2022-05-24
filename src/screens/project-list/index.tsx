@@ -7,9 +7,9 @@ import { useDebounce } from "hooks/use-debounce"
 import { useUsers } from "./hooks/use-user"
 import { useProjectsSearchParams } from "./hooks/use-project-params"
 import { useDocumentTitle } from "hooks/use-document-title"
-import styled from "@emotion/styled"
 import { useProjectModal } from "./hooks/use-project-modal"
 import { ButtonNoPadding, ErrorBox } from "components/lib"
+import styled from "@emotion/styled"
 
 export const ProjectListScreen: React.FC = (props) => {
   const [param, setParam] = useProjectsSearchParams()
@@ -36,5 +36,6 @@ export const ProjectListScreen: React.FC = (props) => {
 
 
 const Container = styled.div`
+  width: 100vw;
   padding: 3.2rem;
 `
