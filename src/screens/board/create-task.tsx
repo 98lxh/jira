@@ -2,7 +2,7 @@ import { Card, Input } from "antd";
 import { useProjectIdInUrl } from "hooks/use-project-in-url";
 import React, { useEffect, useState } from "react";
 import { useTasksQueryKey } from "./hooks/use-board-params";
-import { useAddTasks, useTasks } from "./hooks/use-task";
+import { useAddTasks } from "./hooks/use-task";
 
 
 export const CreateTask: React.FC<{ boardId: number }> = ({ boardId }) => {

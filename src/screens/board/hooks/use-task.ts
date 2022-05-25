@@ -1,4 +1,6 @@
+import { SortProps } from './use-board';
 import { useAddConfig, useDeleteConfig, useEditConfig } from 'hooks/use-optimistic-opitons';
+import { useReorderTaskConfig } from 'hooks/use-optimistic-opitons';
 import { Task } from 'types/task';
 import { QueryKey, useMutation, useQuery } from 'react-query';
 import { useHttp } from 'utils/http';
@@ -57,5 +59,19 @@ export const useDeleteTask = (queryKey: QueryKey) => {
         method: 'DELETE',
       }),
     useDeleteConfig(queryKey)
+  )
+}
+
+
+export const useReorderTask = (queryKey: QueryKey) => {
+  const clinet = useHttp()
+  return useMutation(
+    (params: SortProps) => {
+      return clinet('tasks/reorder', {
+        data: params,
+        method: 'POST'
+      })
+    },
+    useReorderTaskConfig(queryKey)
   )
 }

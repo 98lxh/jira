@@ -1,3 +1,4 @@
+import { useReorderBoardConfig } from './../../../hooks/use-optimistic-opitons';
 import { Board } from 'types/board';
 import { useQuery, QueryKey, useMutation } from 'react-query';
 import { useHttp } from 'utils/http';
@@ -34,5 +35,31 @@ export const useDeleteBoard = (queryKey: QueryKey) => {
         method: 'DELETE',
       }),
     useDeleteConfig(queryKey)
+  )
+}
+
+export interface SortProps {
+  //放到目标前还是后面
+  type: 'before' | 'after'
+  //要重新排序的item
+  fromId: number
+  //目标item
+  referenceId: number
+  //针对task
+  fromKanbanId?: number
+  toKanbanId?: number
+}
+
+
+export const useReorderBoard = (queryKey: QueryKey) => {
+  const clinet = useHttp()
+  return useMutation(
+    (params: SortProps) => {
+      return clinet('kanbans/reorder', {
+        data: params,
+        method: 'POST'
+      })
+    },
+    useReorderBoardConfig(queryKey)
   )
 }

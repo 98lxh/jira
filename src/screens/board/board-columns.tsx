@@ -11,6 +11,7 @@ import styled from "@emotion/styled"
 import { Mark } from "components/mark"
 import { useDeleteBoard } from "./hooks/use-board"
 import { Row } from "components/lib"
+import { Drag, Drop, DropChild } from "components/drag-and-drop"
 
 const TaskTypeIcon: React.FC<{ id: number }> = ({ id }) => {
   const { data: taskTypes } = useTaskTypes()
@@ -67,25 +68,39 @@ const More: React.FC<{ board: Board }> = ({ board }) => {
   </Dropdown>
 }
 
-export const BoardColumns: React.FC<{ board: Board }> = ({ board }) => {
+export const BoardColumns = React.forwardRef<HTMLDivElement, { board: Board }>(({ board, ...props }, ref) => {
   const { data: allTasks } = useTasks(useTasksSearchParams())
   const tasks = allTasks?.filter(task => task.kanbanId === board.id)
 
   return (
-    <Container>
+    <Container ref={ref} {...props}>
       <Row between={true}>
         <h3>{board.name}</h3>
         <More board={board} />
       </Row>
       <TaskContainer>
-        {
-          tasks?.map(task => <TaskCard task={task} />)
-        }
+        <Drop
+          type="row"
+          direction="vertical"
+          droppableId={board.id + ''}
+        >
+          <DropChild style={{ minHeight: '5px' }}>
+            {
+              tasks?.map((task, taskIndex) => (
+                <Drag key={task.id} index={taskIndex} draggableId={'task' + task.id}>
+                  <div>
+                    <TaskCard key={task.id} task={task} />
+                  </div>
+                </Drag>
+              ))
+            }
+          </DropChild>
+        </Drop>
         <CreateTask boardId={board.id} />
       </TaskContainer>
     </Container>
   )
-}
+})
 
 
 export const Container = styled.div`

@@ -75,7 +75,9 @@ export const TaskModal: React.FC = () => {
           style={{ fontSize: '14px' }}
           size="small"
           onClick={startDelete}
-        >删除</Button>
+        >
+          删除
+        </Button>
       </div>
     </Modal>
   )
